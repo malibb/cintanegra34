@@ -15,3 +15,5 @@ const resolvers = {
         hello:(root, params, context, info) => `Hola ${params.name}` //interpolación back tips //acento grave
     }
 }
+
+const server  = new GraphQLServer({typeDefs, resolvers});
