@@ -8,10 +8,12 @@ const typeDefs = `
     type Query{
         hello(name:String): String!
         getUsers: [User!]
+        getUser(id:Int!): User!
     }
 
     type Mutation{
-        createUser(name:String!, age:Int!):User
+        createUser(name:String!, age:Int!):User!
+        updateUser(id:Int!, name:String!): [User!]
     }
 
     type User{
@@ -25,7 +27,11 @@ const users = [];
 const resolvers = {
     Query:{
         hello:(root, params, context, info) => `Hola ${params.name}`, //interpolación back tips //acento grave
-        getUsers:(root, params, context, info) => users
+        getUsers:(root, params, context, info) => users,
+        getUser:(root, params, context, info)=>{
+            const user = users.find(({id})=> id === params.id);
+            return user;
+        }
     },
     Mutation:{
         createUser:(root, params, context, info) => {
@@ -36,6 +42,13 @@ const resolvers = {
             };
             users.push(user);
             return user;
+        },
+        updateUser:(root, params, context, info) => {
+            for (const user of users) {
+                if(params.id === user.id)
+                    user.name = params.name
+            }
+            return users;
         }
     }
 }
