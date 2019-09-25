@@ -1,4 +1,5 @@
 const { GraphQLServer } = require('graphql-yoga');
+const PORT = 5000;
 // Acento que respeta espacios y salto de linea.
 // tipo Query
 // nombre(parametros): resultadoEnTipoDeDato 
@@ -16,4 +17,6 @@ const resolvers = {
     }
 }
 
-const server  = new GraphQLServer({typeDefs, resolvers});
+const server  = new GraphQLServer({typeDefs, resolvers}); // schema graphql
+
+server.start({port: PORT },() => console.log(`Works in port ${PORT}`));
